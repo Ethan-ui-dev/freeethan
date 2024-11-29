@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unlock the Button</title>
+  <style>
+    /* General body styles */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* Container styles */
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Heading styles */
+    h1 {
+      color: #333333;
+    }
+
+    /* Button styles */
+    button {
+      font-size: 18px;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button.locked {
+      background-color: #6c757d;
+    }
+
+    button.unlocked {
+      background-color: #28a745;
+    }
+
+    /* Result paragraph styles */
+    p {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #28a745;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Unlock the Button</h1>
+    <!-- Button starts locked with 20 clicks needed -->
+    <button id="unlockButton" class="locked">
+      <span id="lockIcon">🔒</span>
+      <span id="clickCount">20 clicks left</span>
+    </button>
+    <!-- Paragraph to display the result -->
+    <p id="result"></p>
+  </div>
+  <script>
+    // Variables
+    let clicksLeft = 20; // Total clicks needed to unlock
+    let startTime = null; // Time when the first click happens
+
+    // Elements
+    const unlockButton = document.getElementById('unlockButton');
+    const clickCount = document.getElementById('clickCount');
+    const result = document.getElementById('result');
+
+    // Button click handler
+    unlockButton.addEventListener('click', () => {
+      // Record the time on the first click
+      if (startTime === null) {
+        startTime = new Date(); // Save the current time
+      }
+
+      // Decrement clicks left
+      if (clicksLeft > 1) {
+        clicksLeft--;
+        clickCount.textContent = `${clicksLeft} clicks left`;
+      } else {
+        // Unlock when clicks reach zero
+        const endTime = new Date(); // Time when unlocked
+        const timeTaken = ((endTime - startTime) / 1000).toFixed(2); // Time in seconds
+
+        // Update button and result
+        unlockButton.classList.remove('locked');
+        unlockButton.classList.add('unlocked');
+        clickCount.textContent = "Unlocked!";
+        unlockButton.disabled = true; // Prevent further clicks
+        result.textContent = `You helped Ethan Vazquez escape in ${timeTaken} seconds!`;
+      }
+    });
+  </script>
+</body>
+</html>
